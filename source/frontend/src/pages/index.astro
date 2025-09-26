@@ -1,0 +1,23 @@
+---
+import Layout from '../layouts/Layout.astro';
+import ChatInterface from '../components/ChatInterface';
+---
+
+<Layout title="Perplexity Chat - AI Marketing Campaign Assistant">
+  <main class="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+    <div class="container mx-auto px-4 py-8">
+      <div class="max-w-4xl mx-auto">
+        <header class="text-center mb-8">
+          <h1 class="text-4xl font-bold text-gray-900 mb-4">
+            Perplexity Chat
+          </h1>
+          <p class="text-xl text-gray-600 mb-8">
+            AI-powered marketing campaign orchestration platform
+          </p>
+        </header>
+        
+        <ChatInterface client:load />
+      </div>
+    </div>
+  </main>
+</Layout>
