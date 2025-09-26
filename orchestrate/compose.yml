@@ -1,0 +1,30 @@
+services:
+  perplexity-chat-backend:
+    build:
+      context: ..
+      dockerfile: orchestrate/main/Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-sk-test-key-replace-with-real-key}
+      - DATABASE_URL=${DATABASE_URL:-sqlite:///./perplexity_chat.db}
+      - USE_REAL_DATA_SOURCES=${USE_REAL_DATA_SOURCES:-false}
+    volumes:
+      - ../source/main:/app
+    command: python main.py
+    env_file:
+      - main/.env
+
+  perplexity-chat-frontend:
+    build:
+      context: ..
+      dockerfile: orchestrate/frontend/Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - VITE_API_URL=http://localhost:8000
+      - VITE_WS_URL=ws://localhost:8000
+    env_file:
+      - frontend/.env
+    depends_on:
+      - perplexity-chat-backend
