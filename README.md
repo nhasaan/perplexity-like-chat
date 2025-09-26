@@ -28,7 +28,12 @@ perplexity-chat/
 │       └── package.json          # Frontend dependencies
 ├── orchestrate/                 # Docker deployment
 │   ├── compose.yml              # Docker Compose
-│   └── main/Dockerfile          # Backend container
+│   ├── main/
+│   │   ├── Dockerfile           # Backend container
+│   │   └── .env.example         # Backend environment template
+│   └── frontend/
+│       ├── Dockerfile           # Frontend container
+│       └── .env.example         # Frontend environment template
 └── docs/                        # Documentation
     ├── requirements.txt         # Project requirements
     └── REAL_DATA_SOURCES.md     # Real data integration guide
@@ -132,10 +137,32 @@ GOOGLE_ANALYTICS_PROPERTY_ID=your_id
 
 ## 🐳 **Docker Deployment**
 
+### **Full Stack with Docker Compose**
 ```bash
-# Build and run with Docker Compose
+# 1. Set up environment variables
+cp orchestrate/main/.env.example orchestrate/main/.env
+cp orchestrate/frontend/.env.example orchestrate/frontend/.env
+
+# 2. Edit environment files with your API keys
+# Backend: Add your OpenAI API key to orchestrate/main/.env
+# Frontend: Configure API URLs in orchestrate/frontend/.env
+
+# 3. Build and run both frontend and backend
 cd orchestrate
 docker-compose up --build
+```
+
+**Services:**
+- **Backend**: `http://localhost:8000` (FastAPI)
+- **Frontend**: `http://localhost:3000` (Astro/React)
+
+### **Individual Services**
+```bash
+# Backend only
+docker-compose up perplexity-chat-backend
+
+# Frontend only  
+docker-compose up perplexity-chat-frontend
 ```
 
 ## 🧪 **Testing**
